@@ -40,7 +40,7 @@ export default function ArticlesTable() {
       setError(null);
       try {
         await new Promise((r) => setTimeout(r, 2000));
-        const res = await fetch(`http://localhost:2000/articles?userId=${user.id}`);
+        const res = await fetch(`https://bernard-backend-a1go.onrender.com/articles?userId=${user.id}`);
         if (!res.ok) throw new Error("Erreur lors de la récupération des articles");
         const data = await res.json();
         setArticles(data);
@@ -68,7 +68,7 @@ export default function ArticlesTable() {
     if (!user?.id) return;
     if (!confirm("Voulez-vous vraiment supprimer cet article ?")) return;
     try {
-      const res = await fetch(`http://localhost:2000/articles/${id}?userId=${user.id}`, {
+      const res = await fetch(`https://bernard-backend-a1go.onrender.com/articles/${id}?userId=${user.id}`, {
         method: "DELETE",
       });
       if (!res.ok) throw new Error("Erreur lors de la suppression");

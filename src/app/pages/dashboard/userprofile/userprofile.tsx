@@ -62,7 +62,7 @@ export default function UserProfile({ user, onSave }: UserProfileProps) {
 
     try {
       const res = await fetch(
-        `http://localhost:2000/users/update/${currentUser.id}`,
+        `https://bernard-backend-a1go.onrender.com/users/update/${currentUser.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

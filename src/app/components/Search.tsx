@@ -26,7 +26,7 @@ export function Search() {
   useEffect(() => {
     async function fetchArticles() {
       try {
-        const res = await fetch("http://localhost:2000/articles/all");
+        const res = await fetch("https://bernard-backend-a1go.onrender.com/articles/all");
         if (!res.ok) throw new Error("Erreur lors du fetch des articles");
         const data = await res.json();
         setArticles(data);

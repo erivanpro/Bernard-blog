@@ -108,7 +108,7 @@ const [article, setArticle] = useState<Article>({
         adressePublication: article.adressePublication,
       };
 
-      const res = await fetch('http://localhost:2000/articles/insert', {
+      const res = await fetch('https://bernard-backend-a1go.onrender.com/articles/insert', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

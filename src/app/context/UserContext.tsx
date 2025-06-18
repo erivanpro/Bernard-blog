@@ -40,7 +40,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     if (!user?.id) return;
     const fetchUser = async () => {
       try {
-        const res = await fetch(`http://localhost:2000/users/${user.id}`);
+        const res = await fetch(`https://bernard-backend-a1go.onrender.com/users/${user.id}`);
         if (!res.ok) {
           console.warn("Impossible de rafraîchir les infos utilisateur");
           return;

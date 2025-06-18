@@ -48,7 +48,7 @@ export default function ArticlesDashboard({ userId }: ArticlesDashboardProps) {
       try {
         await new Promise((resolve) => setTimeout(resolve, 2000)); // 2000s
 
-        const res = await fetch(`http://localhost:2000/articles/stats?userId=${userId}`);
+        const res = await fetch(`https://bernard-backend-a1go.onrender.com/articles/stats?userId=${userId}`);
         if (!res.ok) throw new Error('Erreur lors de la récupération des statistiques');
         const data: ArticleStats[] = await res.json();
         setStats(data);

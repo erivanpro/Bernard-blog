@@ -20,7 +20,7 @@ export default function Page() {
     const password = formData.get("password") as string;
 
     try {
-      const res = await fetch("http://localhost:2000/users/login", {
+      const res = await fetch("https://bernard-backend-a1go.onrender.com/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

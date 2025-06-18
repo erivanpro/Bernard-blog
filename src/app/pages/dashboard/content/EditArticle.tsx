@@ -46,7 +46,7 @@ export function EditArticle({ articleId, userId, onClose }: Props) {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(`http://localhost:2000/articles/${articleId}`);
+        const res = await fetch(`https://bernard-backend-a1go.onrender.com/articles/${articleId}`);
         if (!res.ok) throw new Error("Erreur lors du chargement de l'article");
         const data: Article = await res.json();
         setArticle(data);
@@ -106,7 +106,7 @@ export function EditArticle({ articleId, userId, onClose }: Props) {
       keywords: (article as any).keywords, // si tu gères keywords
     };
 
-    const res = await fetch(`http://localhost:2000/articles/update${article.id}`, {
+    const res = await fetch(`https://bernard-backend-a1go.onrender.com/articles/update${article.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),

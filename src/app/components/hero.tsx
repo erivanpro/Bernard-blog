@@ -45,7 +45,7 @@ export default function Hero() {
     setLoading(true);
     setError(null);
 
-    fetch("http://localhost:2000/articles/all")
+    fetch("https://bernard-backend-a1go.onrender.com/articles/all")
       .then((res) => {
         if (!res.ok) throw new Error("Erreur lors de la récupération");
         return res.json();

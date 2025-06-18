@@ -28,7 +28,7 @@ export default function CommentDrawer({ articleId, userId, onClose }: CommentDra
   const fetchComments = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:2000/comments/article/${articleId}`);
+      const res = await fetch(`https://bernard-backend-a1go.onrender.com/comments/article/${articleId}`);
       const data = await res.json();
       setComments(data);
     } catch (e) {
@@ -52,7 +52,7 @@ export default function CommentDrawer({ articleId, userId, onClose }: CommentDra
       articleId: parseInt(articleId),
     };
     try {
-      const res = await fetch("http://localhost:2000/comments/insert", {
+      const res = await fetch("https://bernard-backend-a1go.onrender.com/comments/insert", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

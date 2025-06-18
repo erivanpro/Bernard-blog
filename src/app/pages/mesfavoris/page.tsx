@@ -25,7 +25,7 @@ export default function FavoritesPage() {
   useEffect(() => {
     if (!userId) return;
 
-    fetch(`http://localhost:2000/likes/user/${userId}/favorites`)
+    fetch(`https://bernard-backend-a1go.onrender.com/likes/user/${userId}/favorites`)
       .then(res => {
         if (!res.ok) throw new Error('Erreur lors du chargement des favoris');
         return res.json();

@@ -61,7 +61,7 @@ export default function Page({ params }: Props) {
     try {
       const userId = user?.id;
       const res = await fetch(
-        `http://localhost:2000/likes?userId=${userId}&articleId=${id}`,
+        `https://bernard-backend-a1go.onrender.com/likes?userId=${userId}&articleId=${id}`,
         { method: "POST" }
       );
       if (!res.ok) {
@@ -78,7 +78,7 @@ export default function Page({ params }: Props) {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:2000/articles/post/${id}`)
+    fetch(`https://bernard-backend-a1go.onrender.com/articles/post/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Article non trouvé");
         return res.json();
@@ -92,7 +92,7 @@ export default function Page({ params }: Props) {
     const fetchLikes = async () => {
       try {
         const res = await fetch(
-          `http://localhost:2000/likes/article/${id}/count`
+          `https://bernard-backend-a1go.onrender.com/likes/article/${id}/count`
         );
         const data = await res.json();
         setLikes(data.totalLikes || 0);
@@ -110,7 +110,7 @@ export default function Page({ params }: Props) {
     const fetchCommentCount = async () => {
       try {
         const res = await fetch(
-          `http://localhost:2000/comments/article/${id}/count`
+          `https://bernard-backend-a1go.onrender.com/comments/article/${id}/count`
         );
         const data = await res.json();
         setCommentCount(data.totalComments || 0);
