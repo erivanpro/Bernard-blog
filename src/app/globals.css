@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap');
+
+@import url('https://db.onlinewebfonts.com/c/02d8bfeaeb805e69f0b04e0f78697ec3?family=NHaasGroteskDSPro-55Rg');
+@font-face {
+    font-family: "NHaasGroteskDSPro-55Rg";
+    src: url("https://db.onlinewebfonts.com/t/02d8bfeaeb805e69f0b04e0f78697ec3.eot");
+    src: url("https://db.onlinewebfonts.com/t/02d8bfeaeb805e69f0b04e0f78697ec3.eot?#iefix") format("embedded-opentype"),
+         url("https://db.onlinewebfonts.com/t/02d8bfeaeb805e69f0b04e0f78697ec3.woff2") format("woff2"),
+         url("https://db.onlinewebfonts.com/t/02d8bfeaeb805e69f0b04e0f78697ec3.woff") format("woff"),
+         url("https://db.onlinewebfonts.com/t/02d8bfeaeb805e69f0b04e0f78697ec3.ttf") format("truetype"),
+         url("https://db.onlinewebfonts.com/t/02d8bfeaeb805e69f0b04e0f78697ec3.svg#NHaasGroteskDSPro-55Rg") format("svg");
+}
+
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "NHaasGroteskDSPro-55Rg", sans-serif;
+}
+
+/* Headings with Poppins (rounded) */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600; /* Adjust weight as needed */
+}
