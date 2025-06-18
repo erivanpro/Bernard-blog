@@ -1,5 +1,6 @@
 "use client";
 import React, { createContext, useState, useEffect, useContext } from "react";
+
 export type User = {
   id: number;
   firstname: string;
@@ -10,13 +11,14 @@ export type User = {
   interests?: string[];
   password?: string;
 };
+
 type UserContextType = {
-  id: string;
   user: User | null;
   setUser: (user: User | null) => void;
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
+
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
@@ -28,6 +30,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       setUser(JSON.parse(storedUser));
     }
   }, []);
+
   useEffect(() => {
     if (user) {
       localStorage.setItem("user", JSON.stringify(user));
@@ -35,6 +38,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       localStorage.removeItem("user");
     }
   }, [user]);
+
   // Rafraîchissement automatique toutes les 2000 secondes
   useEffect(() => {
     if (!user?.id) return;
@@ -51,16 +55,19 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
         console.error("Erreur lors de la récupération utilisateur :", error);
       }
     };
+
     fetchUser();
     const interval = setInterval(fetchUser, 2000 * 1000);
     return () => clearInterval(interval);
   }, [user?.id]);
+
   return (
     <UserContext.Provider value={{ user, setUser }}>
       {children}
     </UserContext.Provider>
   );
 };
+
 export const useUser = (): UserContextType => {
   const context = useContext(UserContext);
   if (!context) {
@@ -68,3 +75,4 @@ export const useUser = (): UserContextType => {
   }
   return context;
 };
+
