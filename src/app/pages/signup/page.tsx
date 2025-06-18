@@ -6,59 +6,56 @@ import { useUser } from '@/app/context/UserContext';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-  function Modal({ message, onClose }: { message: string; onClose: () => void }) {
-    React.useEffect(() => {
-      const handleEsc = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') onClose();
-      };
-      window.addEventListener('keydown', handleEsc);
-      return () => window.removeEventListener('keydown', handleEsc);
-    }, [onClose]);
+function Modal({ message, onClose }: { message: string; onClose: () => void }) {
+  React.useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [onClose]);
 
-    return (
+  return (
+    <div
+      className="fixed inset-0 bg-white/40 backdrop-blur-sm flex items-center justify-center z-50"
+      onClick={onClose}
+      aria-modal="true"
+      role="dialog"
+    >
       <div
-        className="fixed inset-0 bg-white/40 backdrop-blur-sm flex items-center justify-center z-50"
-        onClick={onClose}
-        aria-modal="true"
-        role="dialog"
+        className="bg-white rounded-lg p-6 max-w-sm w-full shadow-xl relative border border-gray-200"
+        onClick={e => e.stopPropagation()}
       >
-        <div
-          className="bg-white rounded-lg p-6 max-w-sm w-full shadow-xl relative border border-gray-200"
-          onClick={e => e.stopPropagation()}
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-2 text-gray-400 hover:text-gray-700"
+          aria-label="Fermer"
         >
-          <button
-            onClick={onClose}
-            className="absolute top-2 right-2 text-gray-400 hover:text-gray-700"
-            aria-label="Fermer"
-          >
-            <XMarkIcon className="h-5 w-5" />
-          </button>
-          <h3 className="text-lg font-semibold mb-4 text-gray-800">Information</h3>
-          <p className="mb-6 text-gray-700 break-words">{message}</p>
-          <button
-            onClick={onClose}
-            className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 w-full transition"
-          >
-            Fermer
-          </button>
-        </div>
+          <XMarkIcon className="h-5 w-5" />
+        </button>
+        <h3 className="text-lg font-semibold mb-4 text-gray-800">Information</h3>
+        <p className="mb-6 text-gray-700 break-words">{message}</p>
+        <button
+          onClick={onClose}
+          className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 w-full transition"
+        >
+          Fermer
+        </button>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
-  export default function SignupPage() {
-    const router = useRouter();
-    const [modalMessage, setModalMessage] = useState<string | null>(null);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const { setUser } = useUser();
+export default function SignupPage() {
+  const router = useRouter();
+  const [modalMessage, setModalMessage] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { setUser } = useUser();
 
-
-
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Cache the form element
     const form = e.currentTarget;
     const formData = new FormData(form);
     const interests = formData.getAll('interests') as string[];
@@ -67,26 +64,31 @@ import React from 'react';
     const email = formData.get('email') as string | null;
     const password = formData.get('password') as string | null;
     const birthday = formData.get('birthday') as string | null;
+
     if (!firstname || !lastname || !email || !password) {
       alert('Veuillez remplir tous les champs obligatoires.');
       setIsSubmitting(false);
       return;
     }
-    const data = {
+
+    const dataToSend = {
       firstname,
       lastname,
       email,
       birthday: birthday ?? undefined,
-      profile_image: "https://images.unsplash.com/photo-1742241107816-349e7f7c0f50?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxfHx8ZW58MHx8fHx8",
+      profile_image:
+        'https://images.unsplash.com/photo-1742241107816-349e7f7c0f50?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxfHx8ZW58MHx8fHx8',
       interests,
       password,
     };
+
     try {
       const res = await fetch('https://bernard-backend-a1go.onrender.com/users/insert', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify(dataToSend),
       });
+
       if (!res.ok) {
         const errorText = await res.text();
         let message = 'Erreur lors de la création de l\'utilisateur.';
@@ -95,7 +97,7 @@ import React from 'react';
           if (errorJson.message) {
             switch (errorJson.message) {
               case 'User with this email already exists':
-                message = "Un utilisateur avec cet e-mail existe déjà.";
+                message = 'Un utilisateur avec cet e-mail existe déjà.';
                 break;
               default:
                 message = errorJson.message;
@@ -106,9 +108,11 @@ import React from 'react';
         setIsSubmitting(false);
         return;
       }
+
+      const user = await res.json(); // 👈 Attend une réponse avec un `id`
       setModalMessage('Utilisateur créé avec succès !');
-      setUser(data);
-      form.reset();  // 👈 use cached form here
+      setUser(user); // 👈 user doit contenir id, firstname, etc.
+      form.reset();
       router.push('pages/dashboard');
     } catch (error) {
       setModalMessage(
@@ -120,10 +124,6 @@ import React from 'react';
       setIsSubmitting(false);
     }
   };
-
-
-
-
 
   return (
     <div className="flex min-h-screen flex-col justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
