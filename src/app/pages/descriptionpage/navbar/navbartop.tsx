@@ -73,7 +73,8 @@ export default function NavbarTop() {
               Bonjour, <strong>{user.firstname}</strong>
             </span>
           ) : (
-            <a href="/login" className="hover:underline hover:text-gray-700">
+          
+         <a href="/pages/login" className="hover:underline hover:text-gray-700">
               Se connecter
             </a>
           )}
